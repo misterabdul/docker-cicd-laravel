@@ -1,7 +1,15 @@
 FROM fedora:37
 
 LABEL MAINTAINER="Abdul Pasaribu" \
-    "GitHub Link"="https://github.com/misterabdul"
+    "Email"="mail@misterabdul.moe" \
+    "GitHub Link"="https://github.com/misterabdul/docker-cicd-laravel" \
+    "DockerHub Link"="https://hub.docker.com/r/misterabdul/docker-cicd-laravel" \
+    "Fedora Version"="37" \
+    "PostgreSQL Version"="15" \
+    "Redis Version"="7.0" \
+    "NodeJS Version"="18" \
+    "PHP Version"="8.2" \
+    "Go Version"="1.20"
 
 RUN dnf -y update && dnf -y install http://rpms.remirepo.net/fedora/remi-release-37.rpm \
     && dnf -y install dnf-plugins-core && dnf config-manager --set-enabled remi \
