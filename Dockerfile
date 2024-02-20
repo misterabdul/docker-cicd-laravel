@@ -6,16 +6,16 @@ LABEL MAINTAINER="Abdul Pasaribu" \
     "DockerHub Link"="https://hub.docker.com/r/misterabdul/docker-cicd-laravel" \
     "Fedora Version"="39" \
     "PostgreSQL Version"="15.4" \
-    "Redis Version"="7.2.3" \
-    "NodeJS Version"="20.8.1" \
-    "Python Version"="3.12.0" \
-    "PHP Version"="8.3.0" \
-    "Go Version"="1.21.4"
+    "Redis Version"="7.2.4" \
+    "NodeJS Version"="20.10.0" \
+    "Python Version"="3.12.1" \
+    "PHP Version"="8.3.3" \
+    "Go Version"="1.22.0"
 
 RUN dnf -y update && dnf -y install http://rpms.remirepo.net/fedora/remi-release-39.rpm \
     && dnf -y install dnf-plugins-core && dnf config-manager --set-enabled remi \
-    && dnf -y install python3 python3-pip sudo curl openssh-clients wget vim git tmux unzip tar \
-        procps-ng zsh zsh-syntax-highlighting zsh-autosuggestions jq\
+    && dnf -y install python python-pip python3 python3-pip sudo curl openssh-clients wget vim git tmux unzip tar \
+        procps-ng zsh zsh-syntax-highlighting zsh-autosuggestions jq \
     && mkdir -p /var/run/supervisor && touch /var/run/supervisor/supervisor.sock \
     && ln -sf /usr/bin/zsh /bin/sh && ln -sf /usr/bin/zsh /usr/bin/sh
 RUN pip install supervisor
@@ -29,8 +29,8 @@ RUN dnf -y install postgresql postgresql-server postgresql-contrib \
     && dnf -y install nodejs npm \
     && dnf -y module enable php:remi-8.3 && dnf -y install php php-common php-pdo php-cli php-fpm php-mbstring \
         php-opcache php-sodium php-xml php-pgsql php-pecl-msgpack php-pecl-igbinary php-pecl-redis5 php-gd composer \
-    && cd /usr/local && wget https://golang.google.cn/dl/go1.21.4.linux-amd64.tar.gz \
-        && tar -xzvf go1.21.4.linux-amd64.tar.gz && rm go1.21.4.linux-amd64.tar.gz
+    && cd /usr/local && wget https://golang.google.cn/dl/go1.22.0.linux-amd64.tar.gz \
+        && tar -xzvf go1.22.0.linux-amd64.tar.gz && rm go1.22.0.linux-amd64.tar.gz
 
 RUN adduser -ms "$(which zsh)" cicd-bot && usermod -aG wheel cicd-bot && su cicd-bot -c \
     'sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" \
