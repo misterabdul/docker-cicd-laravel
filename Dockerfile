@@ -5,12 +5,12 @@ LABEL MAINTAINER="Abdul Pasaribu" \
     "GitHub Link"="https://github.com/misterabdul/docker-cicd-laravel" \
     "DockerHub Link"="https://hub.docker.com/r/misterabdul/docker-cicd-laravel" \
     "Fedora Version"="39" \
-    "PostgreSQL Version"="15.4" \
+    "PostgreSQL Version"="15.6" \
     "Redis Version"="7.2.4" \
-    "NodeJS Version"="20.10.0" \
-    "Python Version"="3.12.1" \
-    "PHP Version"="8.3.3" \
-    "Go Version"="1.22.0"
+    "NodeJS Version"="20.12.2" \
+    "Python Version"="3.12.3" \
+    "PHP Version"="8.3.6" \
+    "Go Version"="1.22.2"
 
 RUN dnf -y update && dnf -y install http://rpms.remirepo.net/fedora/remi-release-39.rpm \
     && dnf -y install dnf-plugins-core && dnf config-manager --set-enabled remi \
@@ -29,14 +29,14 @@ RUN dnf -y install postgresql postgresql-server postgresql-contrib \
     && dnf -y install nodejs npm \
     && dnf -y module enable php:remi-8.3 && dnf -y install php php-common php-pdo php-cli php-fpm php-mbstring \
         php-opcache php-sodium php-xml php-pgsql php-pecl-msgpack php-pecl-igbinary php-pecl-redis5 php-gd composer \
-    && cd /usr/local && wget https://golang.google.cn/dl/go1.22.0.linux-amd64.tar.gz \
-        && tar -xzvf go1.22.0.linux-amd64.tar.gz && rm go1.22.0.linux-amd64.tar.gz
+    && cd /usr/local && wget https://golang.google.cn/dl/go1.22.2.linux-amd64.tar.gz \
+        && tar -xzvf go1.22.2.linux-amd64.tar.gz && rm go1.22.2.linux-amd64.tar.gz
 
 RUN adduser -ms "$(which zsh)" cicd-bot && usermod -aG wheel cicd-bot && su cicd-bot -c \
     'sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" \
     && git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k \
     && git clone --depth=1 https://github.com/amix/vimrc.git $HOME/.vim_runtime \
-    && curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.5/install.sh | bash \
+    && curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash \
     && export NVM_DIR="$HOME/.nvm" && [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" && nvm ls-remote \
     && nvm install lts/hydrogen && nvm install lts/gallium && nvm install lts/fermium && nvm alias default system'
 COPY ["./home/.zshrc", "./home/.p10k.zsh", "./home/.vimrc", "/home/cicd-bot/"]
