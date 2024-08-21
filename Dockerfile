@@ -25,7 +25,7 @@ COPY ./etc/ /etc/
 RUN dnf -y install postgresql postgresql-server postgresql-contrib \
         && cd /var/lib/pgsql/data && su postgres -c "pg_ctl -D /var/lib/pgsql/data initdb" \
         && mkdir -p /var/log/postgresql && chown -R postgres:postgres /var/log/postgresql \
-    && dnf -y install valkey valkey-compat-redis \
+    && dnf -y install valkey valkey-compat-redis && mkdir /run/valkey \
     && dnf -y install nodejs npm \
     && dnf -y module enable php:remi-8.3 && dnf -y install php php-common php-pdo php-cli php-fpm php-mbstring php-opcache \
         php-sodium php-xml php-pgsql php-pecl-msgpack php-pecl-imagick php-pecl-igbinary php-pecl-redis5 php-gd composer \
