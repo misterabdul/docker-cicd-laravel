@@ -6,11 +6,11 @@ LABEL MAINTAINER="Abdul Pasaribu" \
     "DockerHub Link"="https://hub.docker.com/r/misterabdul/docker-cicd-laravel" \
     "Fedora Version"="42" \
     "PostgreSQL Version"="16.9" \
-    "Valkey Version"="8.0.3" \
-    "NodeJS Version"="22.16.0" \
-    "Python Version"="3.13.3" \
-    "PHP Version"="8.4.8" \
-    "Go Version"="1.24.4"
+    "Valkey Version"="8.0.4" \
+    "NodeJS Version"="22.19.0" \
+    "Python Version"="3.13.7" \
+    "PHP Version"="8.4.13" \
+    "Go Version"="1.25.1"
 
 RUN dnf -y update && dnf -y install http://rpms.remirepo.net/fedora/remi-release-42.rpm && dnf -y install dnf-plugins-core  \
     && dnf -y install python python-pip python3 python3-pip sudo curl openssh-clients wget vim git tmux unzip tar \
@@ -28,8 +28,8 @@ RUN dnf -y install postgresql postgresql-server postgresql-contrib \
     && dnf -y install nodejs npm \
     && dnf -y module enable php:remi-8.4 && dnf -y install php php-common php-pdo php-cli php-fpm php-mbstring php-opcache \
         php-sodium php-xml php-pgsql php-pecl-msgpack php-pecl-imagick-im7 php-pecl-igbinary php-pecl-redis5 php-gd composer \
-    && cd /usr/local && wget https://golang.google.cn/dl/go1.24.4.linux-amd64.tar.gz \
-        && tar -xzvf go1.24.4.linux-amd64.tar.gz && rm go1.24.4.linux-amd64.tar.gz
+    && cd /usr/local && wget https://golang.google.cn/dl/go1.25.1.linux-amd64.tar.gz \
+        && tar -xzvf go1.25.1.linux-amd64.tar.gz && rm go1.25.1.linux-amd64.tar.gz
 
 RUN adduser -ms "$(which zsh)" cicd-bot && usermod -aG wheel cicd-bot && su cicd-bot -c \
     'sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" \
