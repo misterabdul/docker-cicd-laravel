@@ -6,6 +6,7 @@ LABEL MAINTAINER="Abdul Pasaribu" \
     "DockerHub Link"="https://hub.docker.com/r/misterabdul/docker-cicd-laravel" \
     "Fedora Version"="42" \
     "PostgreSQL Version"="16.9" \
+    "MariaDB Version"="11.8" \
     "Valkey Version"="8.0.4" \
     "NodeJS Version"="22.19.0" \
     "Python Version"="3.13.7" \
@@ -24,10 +25,11 @@ COPY ./etc/ /etc/
 RUN dnf -y install postgresql postgresql-server postgresql-contrib \
         && cd /var/lib/pgsql/data && su postgres -c "pg_ctl -D /var/lib/pgsql/data initdb" \
         && mkdir -p /var/log/postgresql && chown -R postgres:postgres /var/log/postgresql \
+    && dnf -y install mariadb11.8 mariadb11.8-server && mariadb-install-db && chown -R mysql:mysql /var/lib/mysql /var/log/mariadb \
     && dnf -y install valkey valkey-compat-redis && mkdir /run/valkey \
     && dnf -y install nodejs npm \
-    && dnf -y module enable php:remi-8.4 && dnf -y install php php-common php-pdo php-cli php-fpm php-mbstring php-opcache \
-        php-sodium php-xml php-pgsql php-pecl-msgpack php-pecl-imagick-im7 php-pecl-igbinary php-pecl-redis5 php-gd composer \
+    && dnf -y module enable php:remi-8.4 && dnf -y install php php-common php-pdo php-cli php-fpm php-mbstring php-opcache php-sodium \
+        php-xml php-pgsql php-mysqlnd php-pecl-msgpack php-pecl-imagick-im7 php-pecl-igbinary php-pecl-redis5 php-gd composer \
     && cd /usr/local && wget https://golang.google.cn/dl/go1.25.1.linux-amd64.tar.gz \
         && tar -xzvf go1.25.1.linux-amd64.tar.gz && rm go1.25.1.linux-amd64.tar.gz
 
