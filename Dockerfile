@@ -5,13 +5,13 @@ LABEL MAINTAINER="Abdul Pasaribu" \
     "GitHub Link"="https://github.com/misterabdul/docker-cicd-laravel" \
     "DockerHub Link"="https://hub.docker.com/r/misterabdul/docker-cicd-laravel" \
     "Fedora Version"="44" \
-    "PostgreSQL Version"="18.3" \
+    "PostgreSQL Version"="18.6" \
     "MariaDB Version"="11.8.8" \
-    "Valkey Version"="9.1.0" \
-    "NodeJS Version"="24.13.1" \
-    "Python Version"="3.14.6" \
-    "PHP Version"="8.5.7" \
-    "Go Version"="1.26.4"
+    "Valkey Version"="9.1.2" \
+    "NodeJS Version"="24.18.0" \
+    "Python Version"="3.14.7" \
+    "PHP Version"="8.5.10" \
+    "Go Version"="1.27.1"
 
 RUN dnf -y update && dnf -y install http://rpms.remirepo.net/fedora/remi-release-44.rpm && dnf -y install dnf-plugins-core  \
     && dnf -y install python python-pip python3 python3-pip sudo curl openssh-clients wget vim git tmux unzip tar \
@@ -29,15 +29,15 @@ RUN dnf -y install postgresql postgresql-server postgresql-contrib \
     && dnf -y module enable valkey:remi-9.1 && dnf -y install valkey && mkdir /run/valkey \
     && dnf -y install nodejs24 npm \
     && dnf -y module enable php:remi-8.5 && dnf -y install php php-common php-pdo php-cli php-fpm php-mbstring php-opcache php-sodium \
-        php-xml php-pgsql php-mysqlnd php-pecl-msgpack php-pecl-imagick-im7 php-pecl-igbinary php-pecl-redis5 php-gd composer \
-    && cd /usr/local && wget https://go.dev/dl/go1.26.4.linux-amd64.tar.gz \
-        && tar -xzvf go1.26.4.linux-amd64.tar.gz && rm go1.26.4.linux-amd64.tar.gz
+        php-xml php-pgsql php-mysqlnd php-pecl-msgpack php-pecl-imagick-im7 php-pecl-igbinary php-pecl-redis5 php-gd php-process composer \
+    && cd /usr/local && wget https://go.dev/dl/go1.27.1.linux-amd64.tar.gz \
+        && tar -xzvf go1.27.1.linux-amd64.tar.gz && rm go1.27.1.linux-amd64.tar.gz
 
 RUN adduser -ms "$(which zsh)" cicd-bot && usermod -aG wheel cicd-bot && su cicd-bot -c \
     'sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" \
     && git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k \
     && git clone --depth=1 https://github.com/amix/vimrc.git $HOME/.vim_runtime \
-    && curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.5/install.sh | bash \
+    && curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.8/install.sh | bash \
     && export NVM_DIR="$HOME/.nvm" && [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" && nvm ls-remote && nvm install lts/krypton \
     && nvm install lts/jod && nvm install lts/iron && nvm install lts/hydrogen && nvm install lts/gallium && nvm install lts/fermium \
     && nvm alias default system'
